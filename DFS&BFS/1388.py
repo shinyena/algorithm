@@ -1,6 +1,11 @@
+# 성공
+# 백준 silver4
+# 메모리: 31256KB
+# 시간: 48ms
+
 n, m = map(int, input().split())
 arr = [list(input().strip()) for _ in range(n)]
-visited = [[False]*m for _ in range(m)]
+visited = [[False]*m for _ in range(n)]
 
 def dfs_row(i, j):
     visited[i][j] = True
