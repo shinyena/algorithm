@@ -1,14 +1,15 @@
-def isvps(ps):
-    for i in range(1, len(ps)+1):
-        left = ps[:i].count("(")
-        right = ps[:i].count(")")
-        if left<right:
-            return "NO"
-    if left>right:
-        return "NO"
-    return "YES"
-
+# 성공
+# 백준 silver4
+# 메모리: 31256KB
+# 시간: 40ms
+import sys
 
 n = int(input())
-for i in range(n):
-    print(isvps(input()))
+for _ in range(n):
+    vps = sys.stdin.readline().rstrip()
+    while "()" in vps:
+        vps = vps.replace("()","")
+    if len(vps)>0:
+        sys.stdout.write("NO\n")
+    else:
+        sys.stdout.write("YES\n")
