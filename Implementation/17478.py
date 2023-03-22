@@ -12,12 +12,15 @@ ans1 = "\"재귀함수는 자기 자신을 호출하는 함수라네\""
 ans2 = "라고 답변하였지."
 
 print("어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.")
-for i in range(n):
-    print("____"*i + que1)
-    print("____"*i + que2)
-    print("____"*i + que3)
-    print("____"*i + que4)
-print("____"*n + que1)
-print("____"*n + ans1)
-for i in range(n+1):
-    print("____"*(n-i) + ans2)
+def recursion(i):
+    print("____" *i + que1)
+    if i==n:
+        print("____" *n + ans1)
+    else:
+        print("____"*i + que2)
+        print("____"*i + que3)
+        print("____"*i + que4)
+        recursion(i+1)
+    print("____"*i + ans2)
+
+recursion(0)
