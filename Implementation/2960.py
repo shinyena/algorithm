@@ -4,10 +4,7 @@
 # 시간: 48ms
 
 n, k = map(int, input().split())
-numbers = []
-
-for i in range(2, n+1):
-    numbers.append(i)
+numbers = [i for i in range(2, n+1)]
 
 cnt = 0
 while cnt != k:
