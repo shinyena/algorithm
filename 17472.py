@@ -1,7 +1,7 @@
 # 성공
 # 백준 gold1
 # 메모리: 34436KB
-# 시간: 68ms
+# 시간: 64ms
 
 from sys import stdin
 from collections import deque
@@ -45,8 +45,10 @@ for i in range(len(island)):
                         if (a, b) in island[j]:
                             if (i, j) in bridge:
                                 bridge[(i, j)] = min(bridge[(i, j)], cnt)
+                                bridge[(j, i)] = min(bridge[(j, i)], cnt)
                             else:
                                 bridge[(i, j)] = cnt
+                                bridge[(j, i)] = cnt
                 break
         
         # 위로 이동
@@ -59,10 +61,13 @@ for i in range(len(island)):
                 if cnt > 1:
                     for j in range(i + 1, len(island)):
                         if (a, b) in island[j]:
-                            if (i, j) in bridge:
-                                bridge[(i, j)] = min(bridge[(i, j)], cnt)
-                            else:
-                                bridge[(i, j)] = cnt
+                            if (a, b) in island[j]:
+                                if (i, j) in bridge:
+                                    bridge[(i, j)] = min(bridge[(i, j)], cnt)
+                                    bridge[(j, i)] = min(bridge[(j, i)], cnt)
+                                else:
+                                    bridge[(i, j)] = cnt
+                                    bridge[(j, i)] = cnt
                 break
 
         # 오른쪽으로 이동
@@ -77,8 +82,10 @@ for i in range(len(island)):
                         if (a, b) in island[j]:
                             if (i, j) in bridge:
                                 bridge[(i, j)] = min(bridge[(i, j)], cnt)
+                                bridge[(j, i)] = min(bridge[(j, i)], cnt)
                             else:
                                 bridge[(i, j)] = cnt
+                                bridge[(j, i)] = cnt
                 break
 
         # 왼쪽으로 이동
@@ -93,29 +100,27 @@ for i in range(len(island)):
                         if (a, b) in island[j]:
                             if (i, j) in bridge:
                                 bridge[(i, j)] = min(bridge[(i, j)], cnt)
+                                bridge[(j, i)] = min(bridge[(j, i)], cnt)
                             else:
                                 bridge[(i, j)] = cnt
+                                bridge[(j, i)] = cnt
                 break
 
-# (노드1, 노드2) = 값 -> 노드1 = [(노드2, 값), (노드3, 값)] 형식으로 변경
 graph = [[]*len(island) for _ in range(len(island))]
 for (a, b) in bridge:
-    graph[a].append((b, bridge[(a, b)]))
-    graph[b].append((a, bridge[(a, b)]))
-
+    graph[a].append(b)
 
 answer = 0
-visited_node = [False]*len(island) # 방문한 노드
-visited_node[0] = True
+visited_node = {0}  # 방문한 노드
 for _ in range(len(island) - 1):
     min_node = 0
     min_value = float("inf")
-    for vn in [v for v in range(len(island)) if visited_node[v]]: # 지금까지 방문한 노드와
-        for (node, value) in graph[vn]: # 인접한 노드 중에서
-            if value<min_value and not visited_node[node]: # 최소 간선 선택하기
-                min_value = value
-                min_node = node
-    visited_node[min_node] = True # 방문 기록하고
+    for node in visited_node: # 지금까지 방문한 노드와
+        for target in graph[node]: # 인접한 노드 중에서
+            if bridge[(node, target)]<min_value and target not in visited_node: # 최소 간선 선택하기
+                min_value = bridge[(node, target)]
+                min_node = target
+    visited_node.add(min_node) # 방문 기록하고
     answer += min_value # 값 더하기
     
 # 답 출력
